@@ -1,5 +1,5 @@
-import merge from 'lodash.merge';
-import cloneDeep from 'lodash.clonedeep';
+import merge from 'deepmerge';
+import cloneDeep from '../util/clonedeep';
 import ClassesFlat from './classes-flat';
 import ResolvableProps from './resolvable-props';
 import ResolvableClasses from './resolvable-classes';
@@ -115,8 +115,12 @@ function _resolveClone(layout, object, resolvables){
         let cloned = layout.objects.filter(cloneable => {
             return cloneable.key === object.clone;
         })[0];
-    
-        object = merge({}, cloned, object);
+        
+        //Merges the two objects into a new one, DOES NOT merge arrays
+        object = merge(cloned, object, { 
+            arrayMerge: (destination, source) => source
+        });
+        
     }
 
     return [layout, object, resolvables];

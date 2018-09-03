@@ -1,5 +1,5 @@
 const path = require('path');
-//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const APP_DIR = path.resolve(__dirname, 'src', 'main.js');
 const BUILD_DIR = path.resolve(__dirname, 'build');
 
@@ -22,7 +22,7 @@ module.exports = {
     optimization: {
         minimize: true
     },
-    //plugins: [
-    //    new BundleAnalyzerPlugin()
-    //]
+    plugins: [
+        new BundleAnalyzerPlugin()
+    ]
 }

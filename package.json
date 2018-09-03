@@ -1,14 +1,15 @@
 {
   "name": "phaser3-phorge",
   "version": "1.0.0",
-  "description": "A Phaser 3 plugin for building scene layouts from a config.",
+  "description": "A Phaser 3 layout/scene building plugin for use with Phaser 3",
   "author": "Joshua Avrick",
   "license": "MIT",
   "main": "./src/main.js",
   "scripts": {
-    "build": "webpack -p --watch",
-    "dev": "webpack -d --watch",
-    "server": "webpack-dev-server --open"
+    "build-lib": "webpack --config lib.webpack.config.js -p",
+    "dev-lib": "webpack --config lib.webpack.config.js -d --watch",
+    "build-test": "webpack --config tests.webpack.config.js -p",
+    "start": "webpack-dev-server --open"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -16,14 +17,12 @@
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
     "webpack": "^4.16.4",
+    "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.5"
   },
   "dependencies": {
-    "lodash.clonedeep": "^4.5.0",
-    "lodash.isfunction": "^3.0.9",
-    "lodash.merge": "^4.6.1",
-    "lodash.set": "^4.3.2",
+    "deepmerge": "^2.1.1",
     "phaser": "^3.11.0"
   }
 }

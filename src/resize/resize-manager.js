@@ -1,4 +1,4 @@
-import isFunction from 'lodash.isfunction';
+import isFunction from '../util/isfunction';
 import ResolvableProps from '../parse/resolvable-props';
 
 /**
@@ -68,8 +68,6 @@ class ResizeManager {
         for (let key in config){
             props.push({ key: key, value: this._resolveValue(config[key]) });
         }
-
-        console.log(props);
 
         return function(scene, target){
             for (let i = 0; i < props.length; i++){
