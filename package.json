@@ -4,7 +4,7 @@
   "description": "A Phaser 3 layout/scene building plugin for use with Phaser 3",
   "author": "Joshua Avrick",
   "license": "MIT",
-  "main": "./src/main.js",
+  "main": "./build/phaser3-phorge.js",
   "scripts": {
     "build-lib": "webpack --config lib.webpack.config.js -p",
     "dev-lib": "webpack --config lib.webpack.config.js -d --watch",

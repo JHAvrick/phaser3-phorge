@@ -120,7 +120,7 @@ function _resolveClone(layout, object, resolvables){
         object = merge(cloned, object, { 
             arrayMerge: (destination, source) => source
         });
-        
+
     }
 
     return [layout, object, resolvables];
@@ -135,10 +135,10 @@ function _resolveClone(layout, object, resolvables){
  *  > post - the postscript
  */
 function _resolveDefaults(layout, object, resolvables){
-    object = merge({
+    object = Object.assign({}, {
         layer: layout.layers[0],
         class: Phaser.GameObjects.Sprite,
-        params: [],
+        params: ['{scene}'],
         post: function(){}
     }, object);
 
@@ -186,8 +186,13 @@ function _resolveParams(layout, object, resolvables){
 function _resolveClass(layout, object, resolvables){
     //A string key for a Phaser.GameObjects class was used
     if (typeof object.class === "string"){
+
         if (ResolvableClasses[object.class.toLowerCase()] != null){
-            object.class = ResolvableClasses[object.class.toLowerCase()];
+            object.class = ResolvableClasses[object.class.toLowerCase()].class;
+
+        //if (object.params == null)
+            //object.params = ResolvableClasses[object.class.toLowerCase()].defaultParams;
+
         }
     }
 

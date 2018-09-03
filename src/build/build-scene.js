@@ -6,7 +6,15 @@ import Pool from '../util/pool';
 import applyProps from '../util/apply-props';
 import ResizeManager from '../resize/resize-manager';
 
-function buildScene(scene, config){
+function buildScene(scene, config, settings){
+
+    /**
+     * Default build settings 
+     */
+    let meta = Object.assign({}, {
+        mapToScene: true, //Whether the objects should be mapped to the scene via their keys
+        addToScene: true //Whether Phaser.GameObjects instances should have scene.add.existing() called on them
+    }, settings);
 
     /**
      * Performs some necessary processing on the scene object, resolving 
@@ -26,7 +34,7 @@ function buildScene(scene, config){
      * respective layers and groups. Also adds each object with a 'resize' config
      * to the ResizeManager
      */
-    let layout = _buildLayout(scene, parsed);
+    let layout = _buildLayout(scene, parsed, meta);
 
     /**
      * Return the various build results merged into a single object
@@ -63,7 +71,7 @@ function _buildAnimations(scene, parsed){
  * @returns {Object} - Returns an object holding the LayerManager, ResizeManager,
  * and object/group pools
  */
-function _buildLayout(scene, parsed){
+function _buildLayout(scene, parsed, meta){
     /**
      * The return object of this function, containing subsystems for managing and
      * retreiving the built objects.
@@ -113,10 +121,14 @@ function _buildLayout(scene, parsed){
             * Phaser.GameObject (created during config parse). If true, add it to
             * the stage.
             */
-           if (config.flags.isPhaserObject)
+            if (meta.addToScene && config.flags.isPhaserObject)
                scene.add.existing(obj);
 
-           scene[config.key] = obj;
+            /**
+            * Map the object to the scene via key
+            */
+            if (meta.mapToScene)
+                scene[config.key] = obj;
 
        });
    });
@@ -126,7 +138,7 @@ function _buildLayout(scene, parsed){
     */
    var allObjects = build.objects.asObject();
    build.objects.forEach((key, obj, config) => {
-       config.post(obj, scene, allObjects)
+    config.post.call(obj, scene, allObjects);
    });
 
    return build;   
