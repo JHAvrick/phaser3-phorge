@@ -88,7 +88,26 @@ class Main extends Phaser.Scene {
  + `resize` - (Optional) The plugins resize subsystem can manage the resizing of the following properties: `x`, `y`, `displayWidth`, and `displayHeight`.
     - By default the ResizeManager will subscribe to the scene's `resize` event and resize any object w/ a `resize` property in it's config. This can be disabled by using `phorge.resizer.stop()`
     - Use a ratio string such as `'50%'` to maintain a certain size relative to the scene dimensions.
-    
+   
+<a><a name="api" />
+## API
+ 
+<a><a name="layermanager" />  
+### LayerManager
+The LayerManager maintains a list of semantic layers by setting the [depth](https://photonstorm.github.io/phaser3-docs/Phaser.GameObjects.Components.html#.Depth) property of each layer's children. The LayerManager has many methods for manipulating/reordering layers, however it can also be ignored after the initial build if desired. (You can always call `restack()` to reset the depth of each layer's children.)
+
+<a><a name="addlayer" />
+<b> addLayer(layerKey, objects) </b> - Add a new layer to the top of the stack
+ - <i> layerKey : String </i> - (Required) the layer key
+ - <i> objects : Array </i> - (Optional) an array of game objects to add to this layer
+ 
+<a><a name="removelayer" />
+<b> removeLayer(layerKey, migrateTo) </b> - Dissolves a layer, does NOT destroy the layer's objects.
+  - <i> layerKey : String </i> - (Required) the layer key
+  - <i> migrateTo : Bool | String </i> - (Optional) The layer key to which to move this layers objects. If left empty (false), the objects will no longer be managed by the LayerManager.
+  - <b>returns</b> <i> objects : Array </i> - the objects from the removed layer
+ 
+   
 
 <a><a name="examples" />
 ## Config Examples
