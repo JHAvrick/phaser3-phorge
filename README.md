@@ -93,7 +93,7 @@ class Main extends Phaser.Scene {
 ## Config Examples
 
 A simple layout with only two objects:
-```
+```javascript
 const SimpleLayout = {
     layers: ['one', 'two', 'three'],
     groups: ['one', 'two'],
