@@ -4,11 +4,12 @@ A layout/scene building plugin for [Phaser 3](https://photonstorm.github.io/phas
  - [Features](#features) <br/>
  - [Install](#install) <br/>
  - [Usage](#usage)
+ - [Schema](#schema)
+ - [API](#api)
     - [LayerManager](#layermanager)
     - [ResizeManager](#resizemanager)
     - [Objects](#objects)
     - [Groups](#groups)
- - [Schema](#schema)
  - [Examples](#examples)
 
 <a><a name="features" />
@@ -72,7 +73,7 @@ class Main extends Phaser.Scene {
 `layers` - An array of strings, representing the layers in ascending order. <br/>
 `groups` - An array of strings, each denoting an instance of [Phaser.GameObjects.Group](https://photonstorm.github.io/phaser3-docs/Phaser.GameObjects.Group.html). <br/>
 `anims` - An array of animation configs, see [here](https://photonstorm.github.io/phaser3-docs/Phaser.Animations.Animation.html) for more info about what properties an animation config can contain. <br/>
-`objects` - An array of object configs <br/>
+`objects` - An array of object configs, with the properties: <br/>
   + `key` - (Required) The key by which this object can be retrieved from the plugin. Also used to map the object to the scene if `mapToScene` is true in the build config (as it is by default).
   + `class` - (Required) The class to instantiate this object. 
     - For many objects in the Phaser.GameObjects namespace, a string (case insensitive) can be used to resolve the class. This will work for any of the following: `BitmapText`, `DynamicBitmapText`, `Graphics`, `Image`, `RenderTexture`, `Sprite`, `Sprite3d`, `Text`, `TileSprite`, `Zone`.
