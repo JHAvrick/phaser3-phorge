@@ -1,5 +1,5 @@
 # phaser3-phorge
-A layout/scene building plugin for [Phaser 3](https://photonstorm.github.io/phaser3-docs/index.html). This plugin takes a user-defined config and creates the objects denoted therein.
+A layout/scene building plugin for [Phaser 3](https://photonstorm.github.io/phaser3-docs/index.html). This plugin takes a user-defined config and creates the objects denoted therein. The plugin also includes a number of subsystems for manipulating the layout build. Documentation is a work in progress.
 
  - [Features](#features) <br/>
  - [Install](#install) <br/>
@@ -7,7 +7,7 @@ A layout/scene building plugin for [Phaser 3](https://photonstorm.github.io/phas
  - [Schema](#schema)
  - [API](#api)
     - [LayerManager](#layermanager)
-    - ResizeManager
+    - [ResizeManager](#resizemanager)
     - Objects
     - Groups
  - [Examples](#examples)
@@ -95,6 +95,26 @@ class Main extends Phaser.Scene {
 <a><a name="layermanager" />  
 ### LayerManager
 The LayerManager maintains a list of semantic layers by setting the [depth](https://photonstorm.github.io/phaser3-docs/Phaser.GameObjects.Components.html#.Depth) property of each layer's children. The LayerManager has many methods for manipulating/reordering layers, however it can also be ignored after the initial build if desired. (You can always call `restack()` to reset the depth of each layer's children.)
+
+* Methods
+    * [restack()](#LayerManager+restack)
+    * [addLayer(key, objects)](#LayerManager+addLayer) ⇒ <code>Phaser.GameObjects.Group</code>
+    * [removeLayer(layerKey, [destroyObjects])](#LayerManager+removeLayer) ⇒ <code>Phaser.GameObjects.Group</code>
+    * [getLayer(layerKey)](#LayerManager+getLayer) ⇒ <code>Phaser.GameObjects.Group</code>
+    * [merge(layerOneKey, layerTwoKey)](#LayerManager+merge)
+    * [swap(layerOne, layerTwo)](#LayerManager+swap)
+    * [bringUp(layerKey)](#LayerManager+bringUp)
+    * [bringDown(layerKey)](#LayerManager+bringDown)
+    * [toTop(layerKey)](#LayerManager+toTop)
+    * [toBack(layerKey)](#LayerManager+toBack)
+    * [addObject(layerKey, object)](#LayerManager+addObject)
+    * [removeObject(object)](#LayerManager+removeObject)
+    * [getObjLayerKey(object)](#LayerManager+getObjLayerKey) ⇒ <code>String</code> \| <code>Bool</code>
+    * [moveToLayer(object, newLayerKey)](#LayerManager+moveToLayer)
+
+
+
+
 
 <a name="LayerManager+restack"></a>
 ### layers.restack()
@@ -250,6 +270,39 @@ Move an object to a different layer
 | --- | --- | --- |
 | object | <code>Object</code> | The object to move |
 | newLayerKey | <code>String</code> | The destination layer key |
+
+<br/>
+---
+
+
+<a><a name="resizemanager" />  
+### ResizeManager
+The ResizeManager can manage the resizing of certain game object properties when the scene trigger's a `resize` event. Currently the ResizeManager can manage the following properties: `x`, `y`, `displayWidth`, and `displayHeight`. In the future more complex behavior will be supported.
+
+**Properties**
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| [active] | <code>Bool</code> | <code>true</code> | Set to false to stop the ResizeManager completely |
+| [manageCameras] | <code>Bool</code> | <code>true</code> | Indicates whether the ResizeManager should also resize the camera when the scene resizes |
+
+
+* Methods:
+    * [manage(target, config)](#ResizeManager+manage)
+
+
+
+### resizeManager.manage(target, config)
+Adds an object for the ResizeManager to manage according to the given config. Properties passed as strings will resolved as a percentage of the scene's dimensions.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| target | <code>Phaser.GameObjects.GameObject</code> | The target object to resize |
+| config | <code>Object</code> | The resize config w/ transform properties |
+| config.x | <code>String</code> \| <code>Number</code> | The x position of the target object |
+| config.y | <code>String</code> \| <code>Number</code> | The y position of the target object |
+| config.displayWidth | <code>String</code> \| <code>Number</code> | The object's display width |
+| config.displayHeight | <code>String</code> \| <code>Number</code> | The resize config w/ transform properties |
 
 <a><a name="examples" />
 ## Config Examples
