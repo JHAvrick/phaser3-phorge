@@ -97,17 +97,34 @@ class Main extends Phaser.Scene {
 The LayerManager maintains a list of semantic layers by setting the [depth](https://photonstorm.github.io/phaser3-docs/Phaser.GameObjects.Components.html#.Depth) property of each layer's children. The LayerManager has many methods for manipulating/reordering layers, however it can also be ignored after the initial build if desired. (You can always call `restack()` to reset the depth of each layer's children.)
 
 <a><a name="addlayer" />
-<b> addLayer(layerKey, objects) </b> - Add a new layer to the top of the stack
+<b> addLayer (layerKey, objects) </b> - Add a new layer to the top of the stack
  - <i> layerKey : String </i> - (Required) the layer key
  - <i> objects : Array </i> - (Optional) an array of game objects to add to this layer
  
 <a><a name="removelayer" />
-<b> removeLayer(layerKey, migrateTo) </b> - Dissolves a layer, does NOT destroy the layer's objects.
+<b> removeLayer (layerKey, migrateTo) </b> - Dissolves a layer, does NOT destroy the layer's objects.
   - <i> layerKey : String </i> - (Required) the layer key
   - <i> migrateTo : Bool | String </i> - (Optional) The layer key to which to move this layers objects. If left empty (false), the objects will no longer be managed by the LayerManager.
-  - <b>returns</b> <i> objects : Array </i> - the objects from the removed layer
- 
-   
+  - <b>returns</b> <i> Array </i> - the objects from the removed layer
+
+<a><a name="addObject" />
+<b> addObject (layerKey, object) </b> - Adds an object to the designated layer
+  - <i> layerKey : String </i> - (Required) the layer key
+  - <i> object : Object </i> - (Required) The object to add
+
+<a><a name="removeObject" />
+<b> removeObject (object) </b> - Remove's a given object from the LayerManager
+  - <i> object : Object </i> - (Required) The object to remove
+
+<a><a name="removeObject" />
+<b> moveToLayer (object) </b> - Move an object to a different layer
+  - <i> object : Object </i> - (Required) The object to move
+  - <i> layerKey : String </i> - (Required) the layer key
+
+<a><a name="getObjLayerKey" />
+<b> getObjLayerKey (object, layerKey) </b> - Returns the key of the layer where the given object resides
+  - <i> object : Object </i> - (Required) The object for which to find the layer key
+  - <b>returns</b> <i> String | Bool </i> - The layer key or `false` if the object is a part of no layers
 
 <a><a name="examples" />
 ## Config Examples
