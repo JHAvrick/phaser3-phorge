@@ -7,9 +7,9 @@ A layout/scene building plugin for [Phaser 3](https://photonstorm.github.io/phas
  - [Schema](#schema)
  - [API](#api)
     - [LayerManager](#layermanager)
-    - [ResizeManager](#resizemanager)
-    - [Objects](#objects)
-    - [Groups](#groups)
+    - ResizeManager
+    - Objects
+    - Groups
  - [Examples](#examples)
 
 <a><a name="features" />
