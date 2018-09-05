@@ -99,7 +99,7 @@ function _buildLayout(scene, parsed, meta){
             * Add the object the LayerManager and ResizeManager, as well as the
             * object and groups pools
             */
-           build.layers.addToLayer(layer.key, obj);
+           build.layers.addObject(layer.key, obj);
            build.objects.add(config.key, obj, config);
            build.resizer.manage(obj, config.resize);
 
@@ -133,6 +133,7 @@ function _buildLayout(scene, parsed, meta){
        });
    });
 
+   
    /**
     * Call the postscripts after all the objects are created
     */

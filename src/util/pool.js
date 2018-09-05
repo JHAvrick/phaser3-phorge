@@ -7,12 +7,6 @@ class Pool {
         return this._items.has(key);
     }
 
-    forEach(callback) {
-        this._items.forEach((item, key) => {
-            callback(key, item.item, item.meta);
-        });
-    }
-
     add(itemKey, item, meta = {}){
         this._items.set(itemKey, {
             item: item,
@@ -30,6 +24,12 @@ class Pool {
         return this._items.get(itemKey);
     }
 
+    forEach(callback) {
+        this._items.forEach((item, key) => {
+            callback(key, item.item, item.meta);
+        });
+    }
+    
     setMeta(itemKey, meta){
         this._items.get(itemKey).meta = meta;
     }

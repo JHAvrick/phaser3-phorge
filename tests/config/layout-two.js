@@ -8,6 +8,7 @@ const LayoutTwo = {
             key: "health",
             layer: "one",
             class: 'sprite',
+            params: ["{SCENE}", 0, 0, 'health'],
             props: {
                 texture: "health",
                 anchorX: 0,
@@ -19,9 +20,6 @@ const LayoutTwo = {
             },
             resize: {
                 y: '5%'
-            },
-            post: function(scene, objects){
-                this.setTexture("health");
             }
         },
         {

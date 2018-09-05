@@ -2,9 +2,14 @@ import isFunction from '../util/isfunction';
 import ResolvableProps from '../parse/resolvable-props';
 
 /**
+ * @description
  * The ResizeManager controls the resizing of objects according to a user-defined
  * config object by generating a resize function and calling it each time the 
  * 'resize' event is dispatched by the scene.
+ * 
+ * @property {Bool} [active=true] - Set to false to stop the ResizeManager
+ * @property {Bool} [manageCameras=true] - Indicates whether the ResizeManager should also resize the camera on scene resize
+ * 
  */
 class ResizeManager {
     constructor(scene){
@@ -22,6 +27,12 @@ class ResizeManager {
         this.manageCameras = true;
 
         /**
+         * Flag indicating whether or not the ResizeManager is activly resizing
+         * or not
+         */
+        this.active = true;
+
+        /**
          * Subscription the scene's 'resize' event
          */
         this.scene.events.on('resize', this._resize, this);
@@ -34,9 +45,11 @@ class ResizeManager {
      * @param {Number} height - Height of the scene
      */
     _resize(width, height){
+        if (!this.active) return;
+
         if (this.manageCameras)
             this.scene.cameras.resize(width, height);
-
+        
         for (let i = 0; i < this._targets.length; i++){
             this._targets[i].resize(this.scene, this._targets[i].target);
         }
@@ -78,10 +91,14 @@ class ResizeManager {
     }
 
     /**
-     * Adds an object for the ResizeManager to managed according to the given config
+     * Adds an object for the ResizeManager to manage according to the given config. Properties passed as strings will resolved as ratios of the scene's dimensions.
      * 
-     * @param {Phaser.GameObject} target - The target object to resize
+     * @param {Phaser.GameObjects.GameObject} target - The target object to resize
      * @param {Object} config - The resize config w/ transform properties 
+     * @param {String | Number} config.x - The x position of the target object
+     * @param {String | Number} config.y - The y position of the target object
+     * @param {String | Number} config.displayWidth - The object's display width
+     * @param {String | Number} config.displayHeight - The object's display height
      */
     manage(target, config){
         if (!target || !config) return;

@@ -25,8 +25,7 @@ class MapList {
      * @param {String | Number} keyOrIndex 
      */
     get(keyOrIndex){
-        if (typeof keyOrIndex === "string") return this._dict[keyOrIndex];
-        else return this._arr[keyOrIndex];
+        return this._arr[this.getIndex(keyOrIndex)];
     }
 
     /**
@@ -38,9 +37,74 @@ class MapList {
      * be pushed into the end of the list.
      */
     set(item, key, index){
+        console.log(item, key, index);
         this._dict[key] = item;
         if (index == null) this._arr.push(item);
         else  this._arr[index] = item;
+    }
+
+    /**
+     * Delete item with the given key or at given index
+     * 
+     * @param {String | Number} keyOrIndex 
+     */
+    delete(keyOrIndex){
+        let index = this.getIndex(keyOrIndex);
+        let key = this.getKey(keyOrIndex);
+
+        console.log("INDEX: ");
+        console.log(index);
+
+
+        delete this._dict[key];
+        return this._arr.splice(index, 1)[0];
+    }
+
+    /**
+     * Moves an item in an existing position to the end of the array
+     * 
+     * @param {String | Number} keyOrIndex 
+     */
+    toLast(keyOrIndex){
+        let index = this.getIndex(keyOrIndex);
+        this._arr.push(this._arr.splice(index, 1)[0]);
+    }
+
+    /**
+     * Moves an item in an existing position to the front of the array
+     * 
+     * @param {String | Number} keyOrIndex 
+     */
+    toFirst(keyOrIndex){
+        let index = this.getIndex(keyOrIndex);
+        this._arr.unshift(this._arr.splice(index, 1)[0])
+    }
+
+    /**
+     * Swaps the position of two items. If either position is out of bounds, no
+     * change will be made.
+     * 
+     * @param {String | Number} keyOne - The key or index of an item
+     * @param {String | Number} keyTwo - The key pr index of another item
+     */
+    swap(keyOne, keyTwo){
+
+        //Get the indexes if keys were given
+        let indexOne = typeof keyOne === "string" ? this.indexOfKey(keyOne) : keyOne;
+        let indexTwo = typeof keyTwo === "string" ? this.indexOfKey(keyTwo) : keyTwo;
+
+        //Check for out-of-bounds
+        if (indexOne >= this._arr.length || indexTwo >= this._arr.length)
+            return;
+
+        //Assign the two items to temp variables
+        let itemOne = this._arr[indexOne];
+        let itemTwo = this._arr[indexTwo];
+
+        //Swap their indexes
+        this._arr[indexOne] = itemTwo;
+        this._arr[indexTwo] = itemOne;
+
     }
 
     /**
@@ -57,17 +121,29 @@ class MapList {
     }
 
     /**
-     * Deletes an item at the given index
+     * If passed a key, returns the key's index. If passed an index, simply
+     * returns that index. Useful to avoid extra type-checking.
      * 
-     * @param {Number} index - The index of the item to remove
+     * @param {String | Number} keyOrIndex 
      */
-    deleteAtIndex(index){
-        let item = this._arr[index];
-        let itemKey = this._findInDict[item];
-
-        this._arr.splice(this._arr.indexOf(item), 1);
-        delete this._dict[itemKey];
+    getIndex(keyOrIndex){
+        return typeof keyOrIndex === "string" 
+                ? this.indexOfKey(keyOrIndex)
+                : keyOrIndex;
     }
+
+    /**
+     * If passed an index, returns the index's key. If passed an key, simply 
+     * returns that key. Useful to avoid extra type-checking.
+     * 
+     * @param {String | Number} keyOrIndex 
+     */
+    getKey(keyOrIndex){
+        return typeof keyOrIndex === "string" 
+                ? keyOrIndex
+                : this.keyAtIndex(keyOrIndex);
+    }
+
 
     /**
      * Find the index of a specific element, if it exists
@@ -118,6 +194,11 @@ class MapList {
 
         return false;
     }
+
+    get length(){
+        return this._arr.length;
+    }
+
 
 }
 

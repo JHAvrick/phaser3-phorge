@@ -16,7 +16,7 @@ class Preload extends Phaser.Scene {
     }
 
     create(){
-        this.scene.start('Main');
+        this.scene.start('LayerTest');
     }
 
 }

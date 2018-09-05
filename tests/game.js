@@ -7,6 +7,7 @@ import fitContainer from './fit-container';
  */
 import Preload from './scenes/preload';
 import Main from './scenes/main';
+import LayerTest from './scenes/layer-test';
 
 /**
  * Set up game config and create scenes
@@ -18,7 +19,8 @@ const config = {
     height: 400,
     scene: [
         Preload,
-        Main
+        Main,
+        LayerTest
     ],
     plugins: {
         scene: [
