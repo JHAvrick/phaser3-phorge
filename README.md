@@ -16,8 +16,8 @@ A layout/scene building plugin for [Phaser 3](https://photonstorm.github.io/phas
 ## Features
   - Seperate layout from game logic
   - Define object position as a ratio of scene size (i.e. '25%', '50%')
-  - Seperate objects into rearrangeable layers
-  - Add objects to groups
+  - Seperate objects into and manipulate depth layers
+  - Create and populate groups from config
   - A simple resize manager to adjust certain position/size attributes on scene resize
   - Default values for most objects in the [Phaser.GameObject](https://photonstorm.github.io/phaser3-docs/Phaser.GameObjects.html) namespace
   
