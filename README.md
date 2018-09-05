@@ -141,7 +141,7 @@ Returns the Phaser Group representing a given layer
 <a name="LayerManager+merge"></a>
 
 ### layers.merge(layerOneKey, layerTwoKey)
-key passed in z-order. new layer will replace the layer with the first
+Merge two layers into one
 
 
 
@@ -222,8 +222,6 @@ Adds an object to the given layer
 
 ### layers.removeObject(object)
 Removes an object from any layer in which it resides.
-
-
 
 | Param | Type | Description |
 | --- | --- | --- |
