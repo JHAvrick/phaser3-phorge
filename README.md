@@ -96,35 +96,162 @@ class Main extends Phaser.Scene {
 ### LayerManager
 The LayerManager maintains a list of semantic layers by setting the [depth](https://photonstorm.github.io/phaser3-docs/Phaser.GameObjects.Components.html#.Depth) property of each layer's children. The LayerManager has many methods for manipulating/reordering layers, however it can also be ignored after the initial build if desired. (You can always call `restack()` to reset the depth of each layer's children.)
 
-<a><a name="addlayer" />
-<b> addLayer (layerKey, objects) </b> - Add a new layer to the top of the stack
- - <i> layerKey : String </i> - (Required) the layer key
- - <i> objects : Array </i> - (Optional) an array of game objects to add to this layer
- 
-<a><a name="removelayer" />
-<b> removeLayer (layerKey, migrateTo) </b> - Dissolves a layer, does NOT destroy the layer's objects.
-  - <i> layerKey : String </i> - (Required) the layer key
-  - <i> migrateTo : Bool | String </i> - (Optional) The layer key to which to move this layers objects. If left empty (false), the objects will no longer be managed by the LayerManager.
-  - <b>returns</b> <i> Array </i> - the objects from the removed layer
+<a name="LayerManager+restack"></a>
+### layers.restack()
+Reapplies the parent layers depth to each of the layer's children
 
-<a><a name="addObject" />
-<b> addObject (layerKey, object) </b> - Adds an object to the designated layer
-  - <i> layerKey : String </i> - (Required) the layer key
-  - <i> object : Object </i> - (Required) The object to add
+**Kind**: instance method of [<code>LayerManager</code>](#LayerManager)
+<a name="LayerManager+addLayer"></a>
 
-<a><a name="removeObject" />
-<b> removeObject (object) </b> - Remove's a given object from the LayerManager
-  - <i> object : Object </i> - (Required) The object to remove
+### layers.addLayer(key, objects) ⇒ <code>Phaser.GameObjects.Group</code>
+Add's a new layer to the top of the stack
 
-<a><a name="removeObject" />
-<b> moveToLayer (object) </b> - Move an object to a different layer
-  - <i> object : Object </i> - (Required) The object to move
-  - <i> layerKey : String </i> - (Required) the layer key
 
-<a><a name="getObjLayerKey" />
-<b> getObjLayerKey (object, layerKey) </b> - Returns the key of the layer where the given object resides
-  - <i> object : Object </i> - (Required) The object for which to find the layer key
-  - <b>returns</b> <i> String | Bool </i> - The layer key or `false` if the object is a part of no layers
+**Returns**: <code>Phaser.GameObjects.Group</code> - - The new layer
+
+| Param | Type | Description |
+| --- | --- | --- |
+| key | <code>String</code> | The layer key |
+| objects | <code>Array.&lt;Phaser.GameObjects.GameObject&gt;</code> | An array of objects that belong to this layer |
+
+<a name="LayerManager+removeLayer"></a>
+### layers.removeLayer(layerKey, [destroyObjects]) ⇒ <code>Phaser.GameObjects.Group</code>
+the LayerManager.Any objects in that layer will no longer be managed by
+
+
+**Returns**: <code>Phaser.GameObjects.Group</code> - - The removed layer
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| layerKey | <code>String</code> |  | The layer to remove |
+| [destroyObjects] | <code>Bool</code> | <code>false</code> | Whether to call destroy() on  all objects in the group |
+
+<a name="LayerManager+getLayer"></a>
+
+### layers.getLayer(layerKey) ⇒ <code>Phaser.GameObjects.Group</code>
+Returns the Phaser Group representing a given layer
+
+
+**Returns**: <code>Phaser.GameObjects.Group</code> - - The new layer
+
+| Param | Type | Description |
+| --- | --- | --- |
+| layerKey | <code>String</code> | The layer to get |
+
+<a name="LayerManager+merge"></a>
+
+### layers.merge(layerOneKey, layerTwoKey)
+key passed in z-order. new layer will replace the layer with the first
+
+
+
+| Param | Type |
+| --- | --- |
+| layerOneKey | <code>String</code> |
+| layerTwoKey | <code>String</code> |
+
+<a name="LayerManager+swap"></a>
+
+### layers.swap(layerOne, layerTwo)
+Swaps the depth order of two layers
+
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| layerOne | <code>String</code> | The key of the first layer |
+| layerTwo | <code>String</code> | The key of the second layer |
+
+<a name="LayerManager+bringUp"></a>
+
+### layers.bringUp(layerKey)
+Switch the order of the given layer with the layer directly above it.
+
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| layerKey | <code>String</code> | The key of the layer to bring up |
+
+<a name="LayerManager+bringDown"></a>
+
+### layers.bringDown(layerKey)
+Switch the order of the given layer with the layer directly below it.
+
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| layerKey | <code>String</code> | The key of the layer to bring up |
+
+<a name="LayerManager+toTop"></a>
+
+### layers.toTop(layerKey)
+Brings a layer to the top of stack
+
+
+
+| Param | Type |
+| --- | --- |
+| layerKey | <code>String</code> |
+
+<a name="LayerManager+toBack"></a>
+
+### layers.toBack(layerKey)
+Sends a layer to the bottom of stack
+
+
+
+| Param | Type |
+| --- | --- |
+| layerKey | <code>String</code> |
+
+<a name="LayerManager+addObject"></a>
+
+### layers.addObject(layerKey, object)
+Adds an object to the given layer
+
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| layerKey | <code>String</code> | The layer into which the object will be added |
+| object | <code>Phaser.GameObjects.GameObject</code> | An valid object in the Phaser.GameObjects namespace |
+
+<a name="LayerManager+removeObject"></a>
+
+### layers.removeObject(object)
+Removes an object from any layer in which it resides.
+
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| object | <code>Phaser.GameObjects.GameObject</code> | The object to remove |
+
+<a name="LayerManager+getObjLayerKey"></a>
+
+### layers.getObjLayerKey(object) ⇒ <code>String</code> \| <code>Bool</code>
+Returns the key of the layer that the given object resides in
+
+
+**Returns**: <code>String</code> \| <code>Bool</code> - - The layer key, or `false` if the object resides in no layers
+
+| Param | Type | Description |
+| --- | --- | --- |
+| object | <code>Object</code> | The object for which to retrieve the layer key |
+
+<a name="LayerManager+moveToLayer"></a>
+
+### layers.moveToLayer(object, newLayerKey)
+Move an object to a different layer
+
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| object | <code>Object</code> | The object to move |
+| newLayerKey | <code>String</code> | The destination layer key |
 
 <a><a name="examples" />
 ## Config Examples
