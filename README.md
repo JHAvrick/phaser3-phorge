@@ -1,5 +1,5 @@
 # phaser3-phorge
-A layout/scene building plugin for [Phaser 3](https://photonstorm.github.io/phaser3-docs/index.html). This plugin takes a user-defined config and creates the objects denoted therein. The plugin also includes a number of subsystems for manipulating the layout build. <b>Documentation is a work in progress.<b/>
+A layout/scene building plugin for [Phaser 3](https://photonstorm.github.io/phaser3-docs/index.html). This plugin takes a user-defined config and creates the objects denoted therein. The plugin also includes a number of subsystems for manipulating the layout build. <b>Documentation is a work in progress.</b>
 
  - [Features](#features) <br/>
  - [Install](#install) <br/>
