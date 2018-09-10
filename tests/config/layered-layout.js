@@ -1,62 +1,117 @@
 const LayeredLayout = {
-    layers: ['one', 'two', 'three', 'four', 'five'],
+    layers: ['one'],
     objects: [
         {
-            key: "one",
+            key: "topleft",
             layer: "one",
             class: 'sprite',
             params: ['{scene}', 0, 0, 'panel'],
             props: {
-                tint: 0xff0000,
-                anchorX: 0.5,
-                anchorY: 0,
-                scaleX: 2.5,
-                scaleY: 2.5,
-                x: '30%',
-                y: '30%'
+                originX: .2,
+                originY: .7,
+                displayOriginX: 24,
+                displayOriginY: 76,
             },
             resize: {
-                x: '30%',
-                displayWidth: '50%'
+                aspectRatio: '1:2',
+                align: { to: "topleft" },
             }
         },
         {
-            key: "two",
-            layer: "two",
-            clone: "one",
+            key: "topright",
+            layer: "one",
+            class: 'sprite',
+            params: ['{scene}', 0, 0, 'panel'],
             props: {
-                tint: 0x00ff00,
-                x: '40%',
-                y: '40%'
+                originX: .2,
+                originY: .7,
+                displayOriginX: 24,
+                displayOriginY: 76,
             },
             resize: {
-                x: '40%',
+                aspectRatio: '1:1',
+                align: { to: "topright" },
             }
         },
         {
-            key: "three",
-            layer: "three",
-            clone: "one",
+            key: "bottomleft",
+            layer: "one",
+            class: 'sprite',
+            params: ['{scene}', 0, 0, 'panel'],
+            resize: {
+                align: { to: "bottomleft" },
+            }
+        },
+        {
+            key: "bottomright",
+            layer: "one",
+            class: 'sprite',
+            params: ['{scene}', 0, 0, 'panel'],
             props: {
-                tint: 0x0000ff,
-                x: '50%',
+                originX: .2,
+                originY: .7,
+                displayOriginX: 24,
+                displayOriginY: 76,
+            },
+            resize: {
+                align: { to: "bottomright" },
+            }
+        },
+        {
+            key: "leftmiddle",
+            layer: "one",
+            class: 'sprite',
+            params: ['{scene}', 0, 0, 'panel'],
+            props: {
+                originX: .2,
+                originY: .7,
+                displayOriginX: 24
+            },
+            resize: {
+                align: { to: "left" },
                 y: '50%'
-            },
-            resize: {
-                x: '50%',
             }
         },
         {
-            key: "four",
-            layer: "four",
-            clone: "one",
-            props: {
-                tint: 0x551a8b,
-                x: '60%',
-                y: '60%'
-            },
+            key: "rightmiddle",
+            layer: "one",
+            class: 'sprite',
+            params: ['{scene}', 0, 0, 'panel'],
             resize: {
-                x: '60%',
+                aspectRatio: 'original',
+                align: { to: "right" },
+                displayWidth: '20%',
+                y: '50%'
+            }
+        },
+        {
+            key: "topmiddle",
+            layer: "one",
+            class: 'sprite',
+            params: ['{scene}', 0, 0, 'panel'],
+            resize: {
+                align: { to: "top" },
+                x: '50%'
+            }
+        },
+        {
+            key: "bottommiddle",
+            layer: "one",
+            class: 'sprite',
+            params: ['{scene}', 0, 0, 'panel'],
+            resize: {
+                align: { to: "bottom" },
+                x: '50%'
+            }
+        },
+        {
+            key: "center",
+            layer: "one",
+            class: 'sprite',
+            params: ['{scene}', 0, 0, 'panel'],
+            resize: {
+                y: '50%',
+                x: '50%'
             }
         },
     ]

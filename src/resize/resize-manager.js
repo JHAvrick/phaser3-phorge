@@ -1,5 +1,11 @@
+import Phaser from 'phaser';
+import PriorityList from '../util/priority-list';
 import isFunction from '../util/isfunction';
 import ResolvableProps from '../parse/resolvable-props';
+
+//Rule definitions
+import aspectRatio from './rules/aspect-ratio';
+import align from './rules/align';
 
 /**
  * @description
@@ -59,7 +65,7 @@ class ResizeManager {
      * If the given value is a string, resolves the value to it's integer or 
      * float equivalent, otherwise returns the input value.
      * 
-     * @param {Number | String} value -
+     * @param {Number | String} value
      */
     _resolveValue(value){
         if (typeof value === 'string')
@@ -77,17 +83,49 @@ class ResizeManager {
         /**
          * Parse the config, resolving string values or special flags
          */
+        let rulesList = new PriorityList(2);
         let props = [];
         for (let key in config){
-            props.push({ key: key, value: this._resolveValue(config[key]) });
+            /**
+             * If the key corresponds to a special rule, add it to the rules array.
+             * Otherwise add it to the props array.
+             */
+            if (ResizeManager.Rules[key] != null){
+
+                let userRule = { name: key, value: config[key] };
+                let rulePriority = ResizeManager.Rules[key].priority;
+                rulesList.add(userRule, rulePriority);
+
+            } else {
+
+                props.push({ 
+                    key: key, 
+                    value: this._resolveValue(config[key]) 
+                });
+
+            }
+                
         }
 
-        return function(scene, target){
+        var rules = rulesList.toArray();
+        return function(scene, target) {
+            /**
+             * Resolve props
+             */
             for (let i = 0; i < props.length; i++){
                 if (ResolvableProps[props[i].key] != null)
                     target[props[i].key] = ResolvableProps[props[i].key](scene, props[i].value)
             }
+            
+            /**
+             * Apply rules
+             */
+            for (let i = 0; i < rules.length; i++){
+                let rule = rules[i];
+                ResizeManager.Rules[rule.name].func(scene, target, rule.value);
+            }
         }
+
     }
 
     /**
@@ -112,10 +150,8 @@ class ResizeManager {
                     : this._targets.length;
 
         var resizeFunc;
-        if (isFunction(config))
-            resizeFunc = config;
-        else
-            resizeFunc = this._getResizeFunc(config);
+        if (isFunction(config)) resizeFunc = config;
+        else resizeFunc = this._getResizeFunc(config);
 
         this._targets.push({
             target: target,
@@ -125,6 +161,33 @@ class ResizeManager {
 
     }
 
+    /**
+     * Forces the ResizeManager to do a resize pass as if the scene had just 
+     * triggered the event.
+     */
+    forceResize(){
+        this._resize(
+            this.scene.sys.game.config.width, 
+            this.scene.sys.game.config.height
+        );
+    }
+
+}
+
+/**
+ * Functions which implement specific resize behaviors. Each function has a priority 
+ * value which determines the order in which each is applied in ascending order
+ * (i.e. lower priority values are applied first)
+ */
+ResizeManager.Rules = {
+    aspectRatio: {
+        priority: 0,
+        func: aspectRatio
+    },
+    align: {
+        priority: 1,
+        func: align
+    }
 }
 
 export default ResizeManager;

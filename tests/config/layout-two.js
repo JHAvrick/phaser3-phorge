@@ -19,6 +19,7 @@ const LayoutTwo = {
                 y: '5%'
             },
             resize: {
+                aspectRatio: '1:2',
                 y: '5%'
             }
         },

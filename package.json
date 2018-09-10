@@ -1,6 +1,6 @@
 {
   "name": "phaser3-phorge",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Phaser 3 layout/scene building plugin for use with Phaser 3",
   "author": "Joshua Avrick",
   "license": "MIT",

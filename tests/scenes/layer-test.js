@@ -9,6 +9,8 @@ class LayerTest extends Phaser.Scene {
 
     create(){
         this.phorge.build(LayeredLayout);
+        this.phorge.resizer.forceResize();
+        console.log(this.topleft)
     }
 
 }
