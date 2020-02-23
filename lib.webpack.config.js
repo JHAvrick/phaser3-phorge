@@ -22,7 +22,10 @@ module.exports = {
     optimization: {
         minimize: true
     },
-    //plugins: [
-    //    new BundleAnalyzerPlugin()
-    //]
+	resolve: {
+		alias: {
+            util: path.resolve(__dirname, 'src/util'),
+            modifiers: path.resolve(__dirname, 'src/modifiers'),
+		}
+	}
 }

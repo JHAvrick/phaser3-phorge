@@ -1,18 +1,17 @@
 import merge from 'deepmerge';
-import cloneDeep from '../util/clonedeep';
+import cloneDeep from 'util/clonedeep';
 import ClassesFlat from './classes-flat';
 import ResolvableProps from './resolvable-props';
 import ResolvableClasses from './resolvable-classes';
 
 /**
  * This function takes a PhaserForge layout and resolves classes and special
- * objects. It also restructures the layout in an easier way to work with
+ * objects. An new config object is returned w/ the resolved values.
  * 
  * @param {Phaser.Scene} scene 
- * @param {Object} layout 
- * @param {Object} resolvables 
+ * @param {Object} sceneConfig
  */
-function parseSceneConfig(scene, sceneConfig){
+function parseLayout(scene, sceneConfig){
     var config = cloneDeep(sceneConfig);
     var objects = config.objects;
     
@@ -24,18 +23,11 @@ function parseSceneConfig(scene, sceneConfig){
         'scene.centerY': scene.sys.game.config.height / 2
     }
 
-    _resolveLayoutDefaults(config);
-    _resolveAnimations(scene, config.animations);
-
     /**
      * The return lists
      */
     var objectsArr = [];
     var objectsDict = [];
-    var layers = config.layers.map(layer => {
-        return { key: layer, objects: [] } 
-    });
-
     for (let i = 0; i < objects.length; i++ ){
         let obj = chain([config, objects[i], resolvables],
             [
@@ -50,15 +42,12 @@ function parseSceneConfig(scene, sceneConfig){
 
         objectsArr.push(obj);
         objectsDict[obj.key] = obj;
-        layers.find((layer) => layer.key === obj.layer).objects.push(obj);
     }
 
     return {
-        animations: config.animations,
         scene: config.scene,
         objectsArr: objectsArr,
-        objectsDict: objectsDict,
-        layers: layers,
+        objectsDict: objectsDict
     };
 
 }
@@ -72,36 +61,6 @@ function chain(arr, funcs){
         returnVal = funcs[i](...returnVal);
     }
     return returnVal;
-}
-
-/**
- * Resolves default properties for the scene layout if they don't exist
- */
-function _resolveLayoutDefaults(layout, object, resolvables){
-    //Set the layout's default layers
-    if (layout.layers == null || layout.layers.constructor !== Array){
-        layout.layers = ["defaultLayer"]
-    }
-}
-
-/**
- * Currently just resolves generateFrameNames for an animation config so that
- * each frame doesn't have to be typed.
- * 
- * @param {} anims 
- * @param {*} resolvables 
- */
-function _resolveAnimations(scene, anims = []){
-    for (let i = 0; i < anims.length; i++){
-        let animConfig = anims[i];
-
-        if (animConfig.generateFrameNames != undefined){ 
-            let framesConfig = animConfig.generateFrameNames;
-            let textureKey = framesConfig.key || framesConfig.texture || framesConfig.textureKey;
-
-            animConfig.frames = scene.anims.generateFrameNames(textureKey, framesConfig);
-        }
-    }
 }
 
 /**
@@ -129,14 +88,12 @@ function _resolveClone(layout, object, resolvables){
 /**
  * Resolves any missing mandatory properties to their defaults. Currently the 
  * only mandatory properties are the following:
- *  > layer - the object's z-layer
  *  > class - the object's class
  *  > params - the params for the class
  *  > post - the postscript
  */
 function _resolveDefaults(layout, object, resolvables){
     object = Object.assign({}, {
-        layer: layout.layers[0],
         class: Phaser.GameObjects.Sprite,
         params: ['{scene}'],
         post: function(){}
@@ -235,4 +192,4 @@ function _addFlags(layout, object, resolvables){
 }
 
 
-export default parseSceneConfig;
+export default parseLayout;

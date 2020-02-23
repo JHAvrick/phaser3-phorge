@@ -1,10 +1,13 @@
 import Phaser from 'phaser';
+import BasicLayout from '../config/basic-layout';
 
-
-class Preload extends Phaser.Scene {
+/**
+ * A basic test using no modifiers.
+ */
+class BasicTest extends Phaser.Scene {
     constructor() {
-        super({key: 'Preload'});
-        console.log("Preload...");
+        super({key: 'BasicTest'});
+        console.log("Basic Test...");
     }
 
     preload(){
@@ -16,9 +19,9 @@ class Preload extends Phaser.Scene {
     }
 
     create(){
-        this.scene.start('LayerTest');
+        this.phorge.build(BasicLayout);
     }
 
 }
 
-export default Preload;
+export default BasicTest;

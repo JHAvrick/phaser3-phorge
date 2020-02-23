@@ -1,4 +1,4 @@
-import MapList from '../util/map-list';
+import MapList from 'util/map-list';
 import Phaser from 'phaser';
 
 /**
@@ -173,6 +173,7 @@ class LayerManager {
      * @param {Phaser.GameObjects.GameObject} object - An valid object in the Phaser.GameObjects namespace
      */
     addObject (layerKey, object) {
+
         let layerObjects = this._layers.get(layerKey);
             layerObjects.add(object);
 

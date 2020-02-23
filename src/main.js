@@ -1,5 +1,8 @@
 import Phaser from 'phaser';
-import buildScene from './build/build-scene';
+
+import parseLayout from './phorge/parse/parse-layout';
+import buildLayout from './phorge/build/build-layout';
+import applyModifiers from './phorge/modify/apply-modifiers';
 
 /**
  * The PhorgePlugin is mostly a wrapper class for the  subsystems returned from
@@ -9,34 +12,11 @@ class PhorgePlugin extends Phaser.Plugins.ScenePlugin {
     constructor(scene, pluginManager){
         super(scene, pluginManager);
         this.scene = scene;
+        this.modififers = [];
+    }
 
-        //NOTE: None of the following subsystems are assigned until the build()
-        //function has been called.
-
-        /**
-         * A Pool class, contains a flat list of all game objects created during
-         * the build.
-         */
-        this.objects;
-
-        /**
-         * A Pool class, contains references to each Phaser group created during
-         * the build process.
-         */
-        this.groups;
-
-        /**
-         * LayerManager class, controls adding, removing, and reordering of depth
-         * layers.
-         */
-        this.layers;
-
-        /**
-         * ResizerManager, allows for limited resizing of objects when the scene
-         * calls the 'resize' event.
-         */
-        this.resizer;
-
+    use(modifier){
+        this.modififers.push(modifier);
     }
 
     /**
@@ -51,17 +31,24 @@ class PhorgePlugin extends Phaser.Plugins.ScenePlugin {
      * mapped to the scene as properties via their keys
      */
     build(layout, settings){
-        let sceneLayout = buildScene(this.scene, layout, settings);
 
         /**
-         * Assign the subsystems as returned from the build process
+         * Parses the layoout, resolving classes and some special values
          */
-        this.objects = sceneLayout.objects;
-        this.groups = sceneLayout.groups;
-        this.layers = sceneLayout.layers;
-        this.resizer = sceneLayout.resizer;
+        let parsed = parseLayout(this.scene, layout);
 
-        return sceneLayout;
+        /**
+         * Creates the objects in the layout
+         */
+        let objects = buildLayout(this.scene, parsed, settings);
+
+        /**
+         * Applies any registered modifiers, completing the build
+         */
+        let final = applyModifiers(this.scene, this.modififers, layout, objects);
+
+
+        return final;
     }
     
 }

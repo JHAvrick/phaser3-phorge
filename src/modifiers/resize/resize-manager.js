@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
-import PriorityList from '../util/priority-list';
-import isFunction from '../util/isfunction';
-import ResolvableProps from '../parse/resolvable-props';
+import PriorityList from 'util/priority-list';
+import isFunction from 'util/isfunction';
+import ResolvableProps from './resolvables/resolvable-props';
 
 //Rule definitions
 import aspectRatio from './rules/aspect-ratio';

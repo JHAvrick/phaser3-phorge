@@ -25,5 +25,11 @@ module.exports = {
         contentBase:  path.resolve(__dirname, 'tests', 'www'),
         compress: true,
         port: 8000
-    }
+    },
+	resolve: {
+		alias: {
+            util: path.resolve(__dirname, 'src/util'),
+            modifiers: path.resolve(__dirname, 'src/modifiers'),
+		}
+	}
 }

@@ -3,11 +3,10 @@ import PhorgePlugin from '../build/phaser3-phorge';
 import fitContainer from './fit-container';
 
 /**
- * Scenes
+ * Test scenes
  */
-import Preload from './scenes/preload';
-import Main from './scenes/main';
-import LayerTest from './scenes/layer-test';
+import BasicTest from './scenes/basic-test';
+import LayeredTest from './scenes/layered-test';
 
 /**
  * Set up game config and create scenes
@@ -18,9 +17,8 @@ const config = {
     width: 200,
     height: 400,
     scene: [
-        Preload,
-        Main,
-        LayerTest
+        LayeredTest,
+        BasicTest
     ],
     plugins: {
         scene: [
@@ -34,7 +32,6 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
-
 document.addEventListener('DOMContentLoaded', () => {
     fitContainer('game-container', game);
 }, false);
